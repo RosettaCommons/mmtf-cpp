@@ -31,18 +31,19 @@ struct object_with_zone<mmtf::GroupType> {
   void operator()(msgpack::object::with_zone& o, mmtf::GroupType const& v) const {
     int this_size = 9;
     bool use_bondAtom = true, use_bondOrder = true, use_bondResonance = true;
-    if (mmtf::isDefaultValue(v.bondAtomList)) {
-      use_bondAtom = false;
-      --this_size;
-    }
-    if (mmtf::isDefaultValue(v.bondOrderList)) {
-      use_bondOrder = false;
-      --this_size;
-    }
-    if (mmtf::isDefaultValue(v.bondResonanceList)) {
-      use_bondResonance = false;
-      --this_size;
-    }
+    // REVERT THIS!!! A hack for pymol which currently has a bug
+    // if (mmtf::isDefaultValue(v.bondAtomList)) {
+    //   use_bondAtom = false;
+    //   --this_size;
+    // }
+    // if (mmtf::isDefaultValue(v.bondOrderList)) {
+    //   use_bondOrder = false;
+    //   --this_size;
+    // }
+    // if (mmtf::isDefaultValue(v.bondResonanceList)) {
+    //   use_bondResonance = false;
+    //   --this_size;
+    // }
     o.type = type::MAP;
     o.via.map.size = this_size;
     o.via.map.ptr = static_cast<msgpack::object_kv*>(o.zone.allocate_align(sizeof(msgpack::object_kv)*this_size, MSGPACK_ZONE_ALIGNOF(msgpack::object_kv)));
